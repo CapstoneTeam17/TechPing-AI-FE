@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chat_Component from "./Chat_Component";
-import ChatInput from "./Chat_Input";
+import ChatType from "./Chat_type";
 import "./style/ChatScreen.css";
-import ChatInput_stock from "./Chat_Input_stock";
+import { sendStockQuestion, sendGeneralQuestion } from "./Chat_API";
+import { handleApiError } from "./Chat_API";
 
 interface Chat {
   id: number;
@@ -10,31 +11,47 @@ interface Chat {
   isUser: boolean;
 }
 
-function ChatScreen() {
+const ChatScreen: React.FC = () => {
   const [chat, setChat] = useState<Chat[]>([
     { id: 1, content: "안녕하세요! 무엇을 도와드릴까요?", isUser: false },
   ]);
-
-  const [input, setInput] = useState<string>("");
   const [isCategorySelected, setIsCategorySelected] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  // 메시지 전송 핸들러
-  const handleSendMessage = (message: string) => {
-    if (message.trim()) {
-      setChat((prevChat) => {
-        const newChat = [
-          ...prevChat,
-          {
-            id: prevChat.length > 0 ? prevChat[prevChat.length - 1].id + 1 : 1,
-            content: message.replace(/\n/g, "<br/>"), // Handle newlines
-            isUser: true,
-          },
-        ];
-        console.log("Updated chat:", newChat); // Debugging log
-        return newChat;
-      });
-      setInput(""); // Clear the input field after sending
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Scroll to the bottom on chat update
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chat]);
+
+  const handleSendMessage = async (serverData: any, displayMessage: string) => {
+    setChat((prevChat) => [
+      ...prevChat,
+      { id: prevChat.length + 1, content: displayMessage, isUser: true },
+    ]);
+  
+    try {
+      const botMessage =
+        selectedCategory === "주식 질문"
+          ? await sendStockQuestion(serverData)
+          : await sendGeneralQuestion({ prompt: serverData.prompt }); // "기타 질문" 처리
+  
+      setChat((prevChat) => [
+        ...prevChat,
+        { id: prevChat.length + 1, content: botMessage, isUser: false },
+      ]);
+    } catch (error: any) {
+      const errorMessage = error.response
+        ? handleApiError(error.response.status, error.response.data.error)
+        : "네트워크 오류가 발생했습니다. 다시 시도해주세요.";
+  
+      setChat((prevChat) => [
+        ...prevChat,
+        { id: prevChat.length + 1, content: errorMessage, isUser: false },
+      ]);
     }
   };
 
@@ -46,24 +63,14 @@ function ChatScreen() {
   return (
     <div className="chat-screen">
       <div className="chat-container">
-        {/* Chat Header */}
         <div className="chat-header">
           <p>스토기</p>
         </div>
-
-        {/* Chat Messages */}
-        <div id="chatContainer" className="chat-messages">
-  {chat.map((chatItem) => (
-    <Chat_Component
-      key={chatItem.id}
-      content={chatItem.content}
-      isUser={chatItem.isUser}
-    />
-  ))}
-</div>
-
-
-        {/* Category Selection or Chat Input */}
+        <div className="chat-messages" ref={chatContainerRef}>
+          {chat.map((item) => (
+            <Chat_Component key={item.id} content={item.content} isUser={item.isUser} />
+          ))}
+        </div>
         {!isCategorySelected ? (
           <div className="category-selection">
             <p>질문 유형을 선택해주세요:</p>
@@ -78,20 +85,18 @@ function ChatScreen() {
               onClick={() => handleCategorySelect("기타 질문")}
             >
               기타 질문
-              </button>
+            </button>
           </div>
-        ) : selectedCategory === "주식 질문" ? (
-          <ChatInput_stock onSendMessage={handleSendMessage} />
         ) : (
-          <ChatInput
+          <ChatType
+            selectedCategory={selectedCategory}
             onSendMessage={handleSendMessage}
-            inputValue={input}
-            setInputValue={setInput}
           />
         )}
       </div>
     </div>
   );
-}
+};
 
 export default ChatScreen;
+

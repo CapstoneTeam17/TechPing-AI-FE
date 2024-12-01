@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style/ChatScreen.css";
 interface ChatInputStockProps {
-    onSendMessage: (message: string) => void;
+    onSendMessage: (serverData: { date: string; company_name: string; stock_field: string }, displayMessage: string) => void;
   }
 
 const ChatInput_stock: React.FC<ChatInputStockProps> = ({ onSendMessage }) => {
@@ -12,8 +12,13 @@ const ChatInput_stock: React.FC<ChatInputStockProps> = ({ onSendMessage }) => {
     const handleSend = () => {
         if (date.trim() && companyName.trim() && info.trim()) {
           // Combine inputs into a single message
-          const message = `${date}, ${companyName}의 ${info}가 궁금해!`;
-          onSendMessage(message);
+          const displayMessage  = `${date}, ${companyName}의 ${info}가 궁금해!`;
+          const serverData = {
+            date: date.trim(),
+            company_name: companyName.trim(),
+            stock_field: info.trim(),
+          };
+          onSendMessage(serverData , displayMessage);
     
           // Clear the inputs
           setDate("");
