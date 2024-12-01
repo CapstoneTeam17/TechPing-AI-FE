@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import ChatScreen from './chat/Chat_Screen';
+/*
 function App() {
   return (
     <div className="App">
@@ -19,6 +20,14 @@ function App() {
           Learn React
         </a>
       </header>
+    </div>
+  );
+}
+  */
+function App() {
+  return (
+    <div className="App">
+      <ChatScreen/>
     </div>
   );
 }
