@@ -1,24 +1,43 @@
 import React, { useState } from "react";
 import "./style/ChatScreen.css";
+import "./style/ChatInput.css";
+
 interface ChatInputStockProps {
-    onSendMessage: (serverData: { date: string; company_name: string; stock_field: string }, displayMessage: string) => void;
+    onSendMessage: (serverData: { date: string; company_name: string; stock_field: string }, 
+      displayMessage: string) => void;
   }
 
-const ChatInput_stock: React.FC<ChatInputStockProps> = ({ onSendMessage }) => {
-    const [date, setDate] = useState("");
-    const[companyName, setCompanyName] = useState("");
-    const [info, setInfo] = useState("");
-
+  const ChatInput_stock: React.FC<ChatInputStockProps> = ({ onSendMessage }) => {
+    
+    const companyOptions = [
+      "삼성전자",
+      "현대차",
+      "LG에너지솔루션",
+    ]; // Add more companies as needed
+  
+    const infoOptions = [
+      "시가",
+      "최고가",
+      "최저가",
+      "종가",
+      "거래량",
+    ];
+  
+    // State for selected options
+    const [date, setDate] = useState<string>("날짜");
+    const [companyName, setCompanyName] = useState<string>("회사명");
+    const [info, setInfo] = useState<string>("정보");
+  
     const handleSend = () => {
-        if (date.trim() && companyName.trim() && info.trim()) {
-          // Combine inputs into a single message
-          const displayMessage  = `${date}, ${companyName}의 ${info}가 궁금해!`;
-          const serverData = {
-            date: date.trim(),
-            company_name: companyName.trim(),
-            stock_field: info.trim(),
-          };
-          onSendMessage(serverData , displayMessage);
+      if (date && companyName && info) {
+        // Combine inputs into a single message
+        const displayMessage = `${date}, ${companyName}의 ${info} 알려줘!`;
+        const serverData = {
+          date: date.trim(),
+          company_name: companyName.trim(),
+          stock_field: info.trim(),
+        };
+        onSendMessage(serverData, displayMessage);
     
           // Clear the inputs
           setDate("");
@@ -30,30 +49,39 @@ const ChatInput_stock: React.FC<ChatInputStockProps> = ({ onSendMessage }) => {
   return (
     <div className="chat-input-container-stock">
       <div className="input-fields">
-        <input
-          type="text"
+      <input
+          type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          placeholder="날짜 (예: 2024-12-19)"
           className="stock-input"
         />
         <div>,</div>
-        <input
-          type="text"
+        {/* Company Name Dropdown */}
+        <select
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
-          placeholder="회사명"
           className="stock-input"
-        />
+        >
+          {companyOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
         <div>의</div>
-        <input
-          type="text"
+        {/* Info Dropdown */}
+        <select
           value={info}
           onChange={(e) => setInfo(e.target.value)}
-          placeholder="정보 (예: 최저가)"
           className="stock-input"
-        />
-        <div>가 궁금해!</div>
+        >
+          {infoOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <div>알려줘!</div>
       </div>
       <button className="send-button" onClick={handleSend}>
         입력

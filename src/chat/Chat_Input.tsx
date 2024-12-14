@@ -18,12 +18,20 @@ const ChatInput: React.FC<ChatInputProps> = ({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // 기본 동작(줄바꿈) 방지
+      handleSend(); // 메시지 전송
+    }
+  };
+
   return (
     <div className="chat-input-container">
       <textarea
         className="chat-input"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="스토기에게 무엇이든 물어보세요!"
       />
       <button className="send-button" onClick={handleSend}>

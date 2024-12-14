@@ -6,8 +6,8 @@ export const sendStockQuestion = async (data: {
   date: string;
   stock_field: string;
 }) => {
-    //const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/stock-info`, data);
-    const response = await axios.post("http://127.0.0.1:5000/stock-info", data);
+    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/stock-info`, data);
+    //const response = await axios.post("http://127.0.0.1:5000/stock-info", data);
     
   return response.data.message;
 };
@@ -15,8 +15,8 @@ export const sendStockQuestion = async (data: {
 export const sendGeneralQuestion = async (data: { prompt: string }): Promise<string> => {
     console.log("Sending data to server:", data); // 디버그 출력
     try {
-        const response = await axios.post("http://127.0.0.1:5000/ask", data);
-      //const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/ask`, data);
+       // const response = await axios.post("http://127.0.0.1:5000/ask", data);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/ask`, data);
       return response.data.response; // 서버 응답 반환
     } catch (error: any) {
       if (error.response) {

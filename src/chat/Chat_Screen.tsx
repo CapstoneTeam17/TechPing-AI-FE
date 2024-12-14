@@ -4,6 +4,7 @@ import ChatType from "./Chat_type";
 import "./style/ChatScreen.css";
 import { sendStockQuestion, sendGeneralQuestion } from "./Chat_API";
 import { handleApiError } from "./Chat_API";
+import { ChevronLeft } from "react-feather";
 
 interface Chat {
   id: number;
@@ -32,13 +33,13 @@ const ChatScreen: React.FC = () => {
       ...prevChat,
       { id: prevChat.length + 1, content: displayMessage, isUser: true },
     ]);
-  
+
     try {
       const botMessage =
         selectedCategory === "주식 질문"
           ? await sendStockQuestion(serverData)
           : await sendGeneralQuestion({ prompt: serverData.prompt }); // "기타 질문" 처리
-  
+
       setChat((prevChat) => [
         ...prevChat,
         { id: prevChat.length + 1, content: botMessage, isUser: false },
@@ -47,7 +48,7 @@ const ChatScreen: React.FC = () => {
       const errorMessage = error.response
         ? handleApiError(error.response.status, error.response.data.error)
         : "네트워크 오류가 발생했습니다. 다시 시도해주세요.";
-  
+
       setChat((prevChat) => [
         ...prevChat,
         { id: prevChat.length + 1, content: errorMessage, isUser: false },
@@ -62,13 +63,28 @@ const ChatScreen: React.FC = () => {
 
   return (
     <div className="chat-screen">
+      <div
+        className={`overlay ${isCategorySelected ? "transparent" : "non-transparent"}`}
+      ></div>
       <div className="chat-container">
         <div className="chat-header">
-          <p>스토기</p>
+          {isCategorySelected && (
+            <button
+              className="go-back"
+              onClick={() => setIsCategorySelected(false)}
+            >
+              <ChevronLeft size={24} />
+            </button>
+          )}
+          <p className="chat-title">스토기</p>
         </div>
         <div className="chat-messages" ref={chatContainerRef}>
           {chat.map((item) => (
-            <Chat_Component key={item.id} content={item.content} isUser={item.isUser} />
+            <Chat_Component
+              key={item.id}
+              content={item.content}
+              isUser={item.isUser}
+            />
           ))}
         </div>
         {!isCategorySelected ? (
@@ -78,13 +94,13 @@ const ChatScreen: React.FC = () => {
               className="category-button"
               onClick={() => handleCategorySelect("주식 질문")}
             >
-              주식 질문
+              주식 질문 시작
             </button>
             <button
               className="category-button"
-              onClick={() => handleCategorySelect("기타 질문")}
+              onClick={() => handleCategorySelect("일반 질문")}
             >
-              기타 질문
+              기타 질문 시작
             </button>
           </div>
         ) : (
@@ -99,4 +115,3 @@ const ChatScreen: React.FC = () => {
 };
 
 export default ChatScreen;
-

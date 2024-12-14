@@ -7,12 +7,27 @@
   pointer-events: none;
 }
 
+/* 모바일용 레이아웃 
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+/* 데스크탑용 레이아웃 */
+/*
+@media (min-width: 769px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+*/
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

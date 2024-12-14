@@ -9,6 +9,47 @@
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better design */
 }
 
+select.stock-input option:hover {
+  background-color: #f0f0f0; /* Change hover background color */
+  color: #00CE93; /* Change hover text color */
+}
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 78%;
+  background-color: rgb(249, 249, 249); /* Default opaque background */
+  z-index: 10;
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-header {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+.go-back {
+  background-color: transparent;
+  border: none;
+  color: #636363;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
 
 .category-button {
   margin: 10px;
@@ -43,18 +84,6 @@
   font-size: 14px;
 }
 
-.chat-input-container-stock {
-  position: fixed;
-  justify-content: space-between;
-  align-items: center;
-  bottom: 0;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: nowrap;
-}
 
 .input-fields {
   display: flex;

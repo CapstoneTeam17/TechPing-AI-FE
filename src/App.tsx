@@ -25,8 +25,6 @@ function App() {
 }
   */
 function App() {
-  console.log("API Base URL:", process.env.REACT_APP_API_BASE_URL);
-  console.log("Environment Variables:", process.env);
 
   return (
     <div className="App">
