@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./style/ChatScreen.css";
 import "./style/ChatInput.css";
+import { ArrowUp } from "react-feather";
 
 interface ChatInputStockProps {
     onSendMessage: (serverData: { date: string; company_name: string; stock_field: string }, 
@@ -24,9 +24,9 @@ interface ChatInputStockProps {
     ];
   
     // State for selected options
-    const [date, setDate] = useState<string>("날짜");
-    const [companyName, setCompanyName] = useState<string>("회사명");
-    const [info, setInfo] = useState<string>("정보");
+    const [date, setDate] = useState<string>("");
+    const [companyName, setCompanyName] = useState<string>("");
+    const [info, setInfo] = useState<string>("");
   
     const handleSend = () => {
       if (date && companyName && info) {
@@ -49,6 +49,7 @@ interface ChatInputStockProps {
   return (
     <div className="chat-input-container-stock">
       <div className="input-fields">
+        <div style={{marginLeft:"5px"}}/>
       <input
           type="date"
           value={date}
@@ -62,6 +63,9 @@ interface ChatInputStockProps {
           onChange={(e) => setCompanyName(e.target.value)}
           className="stock-input"
         >
+          <option value="" disabled hidden>
+            회사명
+          </option>
           {companyOptions.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -75,6 +79,9 @@ interface ChatInputStockProps {
           onChange={(e) => setInfo(e.target.value)}
           className="stock-input"
         >
+          <option value="" disabled hidden>
+            정보
+          </option>
           {infoOptions.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -84,7 +91,7 @@ interface ChatInputStockProps {
         <div>알려줘!</div>
       </div>
       <button className="send-button" onClick={handleSend}>
-        입력
+        <ArrowUp size={24}/>
       </button>
     </div>
   );

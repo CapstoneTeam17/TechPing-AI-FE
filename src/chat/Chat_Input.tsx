@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./style/ChatInput.css"
+import { ArrowUp } from "react-feather";
 
 interface ChatInputProps {
   onSendMessage: (prompt: string) => void;
@@ -35,7 +37,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         placeholder="스토기에게 무엇이든 물어보세요!"
       />
       <button className="send-button" onClick={handleSend}>
-        입력
+        <ArrowUp size={24}/>
       </button>
     </div>
   );

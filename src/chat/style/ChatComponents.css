@@ -4,10 +4,12 @@
   }
   
   .chat-wrapper.user {
+    margin-right: 8px;
     justify-content: flex-end; /* Align user messages to the right */
   }
   
   .chat-wrapper.bot {
+    margin-left: 8px;
     justify-content: flex-start; /* Align bot messages to the left */
   }
   
