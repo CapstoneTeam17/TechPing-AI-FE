@@ -21,7 +21,7 @@
     width: 100%;
     background-color: #ffffff;
     padding: 10px;
-    bottom: 10px;
+    box-sizing: border-box;
   }
 
   select.stock-input option:hover {
@@ -35,7 +35,7 @@
     flex-wrap: wrap;
     align-items: center;
     padding: 10px; 
-    gap: 10px;
+    gap: 8px;
     min-height: 60px;
     width: calc(600% / 7 - 10px);
     background-color: #EFF1F3;
@@ -56,7 +56,7 @@
     width: calc(100% / 6 - 10px);
     min-width: 90px;
     box-sizing: border-box;
-    width: 120px;
+    width:100px;
   }
   
   .chat-input {

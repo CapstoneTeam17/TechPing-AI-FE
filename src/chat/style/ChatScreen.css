@@ -11,6 +11,7 @@
   max-width: 700px; /* 원하는 최대 너비 설정 */
   width: 100%; /* 전체 화면 너비 채우기 */
   height: calc(100vh - 100px); /* 헤더와 입력창 제외 */
+  overflow: hidden;
 }
 
 .chat-header {
@@ -52,7 +53,7 @@
 }
 
 .chat-messages {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 200px);
   overflow-y: auto; /* Enable scrolling if messages exceed height */
   padding: 10px;
   display: flex;

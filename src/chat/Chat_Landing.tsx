@@ -34,7 +34,7 @@ const CategorySelection: React.FC = () => {
                 <h1> 저는 당신의 AI 주식비서</h1>
                 <div className="inline-heading">
                     <h1 className="highlight-text">스토기</h1>
-                    <h1 className ="no-margin">예요.</h1>
+                    <h1 className ="no-margin">에요.</h1>
                 </div>
             </div>
            <img src={chatting_landing} className="landing-image" alt="Stoki"
